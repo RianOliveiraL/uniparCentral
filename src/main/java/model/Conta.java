@@ -1,42 +1,50 @@
 package model;
 
-import java.util.Date;
+import java.util.List;
 
-public class Conta {
-    int numero;
-    int digito;
-    double saldo;
-    int tipo;
-    String ra;
-    int agencia_id;
-    int pessoa_id;
-    Date datacadastro;
+public class Conta extends Entidade {
+    private String numero;
+    private String digito;
+    private String tipo;
+    private double saldo;
+    private String ra;
+    private Agencia agencia;
+    private Pessoa titular;
+    private List<Transacao> transacoes;
 
-    public Conta(int numero, int digito, double saldo, int tipo, String ra, int agencia_id, int pessoa_id, Date datacadastro) {
+    public Conta(String numero, String digito, String tipo, double saldo, String ra, Agencia agencia, Pessoa titular, List<Transacao> transacoes) {
         this.numero = numero;
         this.digito = digito;
-        this.saldo = saldo;
         this.tipo = tipo;
+        this.saldo = saldo;
         this.ra = ra;
-        this.agencia_id = agencia_id;
-        this.pessoa_id = pessoa_id;
-        this.datacadastro = datacadastro;
+        this.agencia = agencia;
+        this.titular = titular;
+        this.transacoes = transacoes;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
-    public int getDigito() {
+    public String getDigito() {
         return digito;
     }
 
-    public void setDigito(int digito) {
+    public void setDigito(String digito) {
         this.digito = digito;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public double getSaldo() {
@@ -47,14 +55,6 @@ public class Conta {
         this.saldo = saldo;
     }
 
-    public int getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
-    }
-
     public String getRa() {
         return ra;
     }
@@ -63,27 +63,27 @@ public class Conta {
         this.ra = ra;
     }
 
-    public int getAgencia_id() {
-        return agencia_id;
+    public Agencia getAgencia() {
+        return agencia;
     }
 
-    public void setAgencia_id(int agencia_id) {
-        this.agencia_id = agencia_id;
+    public void setAgencia(Agencia agencia) {
+        this.agencia = agencia;
     }
 
-    public int getPessoa_id() {
-        return pessoa_id;
+    public Pessoa getTitular() {
+        return titular;
     }
 
-    public void setPessoa_id(int pessoa_id) {
-        this.pessoa_id = pessoa_id;
+    public void setTitular(Pessoa titular) {
+        this.titular = titular;
     }
 
-    public Date getDatacadastro() {
-        return datacadastro;
+    public List<Transacao> getTransacoes() {
+        return transacoes;
     }
 
-    public void setDatacadastro(Date datacadastro) {
-        this.datacadastro = datacadastro;
+    public void setTransacoes(List<Transacao> transacoes) {
+        this.transacoes = transacoes;
     }
 }

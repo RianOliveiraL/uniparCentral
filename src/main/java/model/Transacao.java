@@ -2,24 +2,29 @@ package model;
 
 import java.util.Date;
 
-public class Transacao {
-    double valor;
-    int tipo;
-    String ra;
-    int conta_origem;
-    int conta_destino;
-    Date datacadastro;
-    Date datahora;
+public class Transacao extends Entidade {
+    private Date dataHora;
+    private double valor;
+    private String tipo; // Depósito, retirada, transferência, etc.
+    private String ra; // Suponho que seja um campo específico, porém sem especificação do que é, coloquei como String
+    private Conta contaOrigem;
+    private Conta contaDestino;
 
-
-    public Transacao(double valor, int tipo, String ra, int conta_origem, int conta_destino, Date datacadastro, Date datahora) {
+    public Transacao(Date dataHora, double valor, String tipo, String ra, Conta contaOrigem, Conta contaDestino) {
+        this.dataHora = dataHora;
         this.valor = valor;
         this.tipo = tipo;
         this.ra = ra;
-        this.conta_origem = conta_origem;
-        this.conta_destino = conta_destino;
-        this.datacadastro = datacadastro;
-        this.datahora = datahora;
+        this.contaOrigem = contaOrigem;
+        this.contaDestino = contaDestino;
+    }
+
+    public Date getDataHora() {
+        return dataHora;
+    }
+
+    public void setDataHora(Date dataHora) {
+        this.dataHora = dataHora;
     }
 
     public double getValor() {
@@ -30,11 +35,11 @@ public class Transacao {
         this.valor = valor;
     }
 
-    public int getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(int tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
@@ -46,35 +51,19 @@ public class Transacao {
         this.ra = ra;
     }
 
-    public int getConta_origem() {
-        return conta_origem;
+    public Conta getContaOrigem() {
+        return contaOrigem;
     }
 
-    public void setConta_origem(int conta_origem) {
-        this.conta_origem = conta_origem;
+    public void setContaOrigem(Conta contaOrigem) {
+        this.contaOrigem = contaOrigem;
     }
 
-    public int getConta_destino() {
-        return conta_destino;
+    public Conta getContaDestino() {
+        return contaDestino;
     }
 
-    public void setConta_destino(int conta_destino) {
-        this.conta_destino = conta_destino;
-    }
-
-    public Date getDatacadastro() {
-        return datacadastro;
-    }
-
-    public void setDatacadastro(Date datacadastro) {
-        this.datacadastro = datacadastro;
-    }
-
-    public Date getDatahora() {
-        return datahora;
-    }
-
-    public void setDatahora(Date datahora) {
-        this.datahora = datahora;
+    public void setContaDestino(Conta contaDestino) {
+        this.contaDestino = contaDestino;
     }
 }
