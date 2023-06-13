@@ -1,4 +1,4 @@
-package model;
+package br.unipar.central.model;
 
 public class Agencia extends Entidade {
     private String codigo;

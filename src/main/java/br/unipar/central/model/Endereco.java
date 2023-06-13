@@ -1,25 +1,27 @@
-package model;
+package br.unipar.central.model;
 
 public class Endereco extends Entidade {
     private String logradouro;
-    private int numero;
+    private String numero;
     private String bairro;
     private String cep;
     private String complemento;
     private String ra;
-    private int pessoa_id;
-    private int cidade_id;
+    private Pessoa pessoa;
+    private Cidade cidade;
 
-    public Endereco(String logradouro, int numero, String bairro, String cep, String complemento, String ra, int pessoa_id, int cidade_id) {
+    public Endereco(String logradouro, String numero, String bairro, String cep, String complemento, String ra, Pessoa pessoa, Cidade cidade) {
         this.logradouro = logradouro;
         this.numero = numero;
         this.bairro = bairro;
         this.cep = cep;
         this.complemento = complemento;
         this.ra = ra;
-        this.pessoa_id = pessoa_id;
-        this.cidade_id = cidade_id;
+        this.pessoa = pessoa;
+        this.cidade = cidade;
     }
+
+    public Endereco () {}
 
     public String getLogradouro() {
         return logradouro;
@@ -29,11 +31,11 @@ public class Endereco extends Entidade {
         this.logradouro = logradouro;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -69,19 +71,19 @@ public class Endereco extends Entidade {
         this.ra = ra;
     }
 
-    public int getPessoa_id() {
-        return pessoa_id;
+    public Pessoa getPessoa() {
+        return pessoa;
     }
 
-    public void setPessoa_id(int pessoa_id) {
-        this.pessoa_id = pessoa_id;
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
     }
 
-    public int getCidade_id() {
-        return cidade_id;
+    public Cidade getCidade() {
+        return cidade;
     }
 
-    public void setCidade_id(int cidade_id) {
-        this.cidade_id = cidade_id;
+    public void setCidade(Cidade cidade) {
+        this.cidade = cidade;
     }
 }

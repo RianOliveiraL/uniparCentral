@@ -1,4 +1,4 @@
-package model;
+package br.unipar.central.model;
 
 import java.util.List;
 

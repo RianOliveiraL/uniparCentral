@@ -1,4 +1,4 @@
-package model;
+package br.unipar.central.model;
 
 public class Cidade extends Entidade {
     private String nome;
@@ -10,6 +10,8 @@ public class Cidade extends Entidade {
         this.estado = estado;
         this.ra = ra;
     }
+
+    public Cidade() {}
 
     public String getNome() {
         return nome;

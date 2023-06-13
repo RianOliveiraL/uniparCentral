@@ -1,4 +1,4 @@
-package model;
+package br.unipar.central.model;
 
 public class PessoaJuridica extends Pessoa {
     private String razaoSocial;
@@ -6,12 +6,17 @@ public class PessoaJuridica extends Pessoa {
     private String cnaePrincipal;
     private String fantasia;
 
-    public PessoaJuridica(String razaoSocial, String cnpj, String cnaePrincipal, String fantasia) {
+    private Pessoa pessoa;
+
+    public PessoaJuridica(String razaoSocial, String cnpj, String cnaePrincipal, String fantasia, Pessoa pessoa) {
         this.razaoSocial = razaoSocial;
         this.cnpj = cnpj;
         this.cnaePrincipal = cnaePrincipal;
         this.fantasia = fantasia;
+        this.pessoa = pessoa;
     }
+
+    public PessoaJuridica() {}
 
     public String getRazaoSocial() {
         return razaoSocial;
@@ -43,5 +48,13 @@ public class PessoaJuridica extends Pessoa {
 
     public void setFantasia(String fantasia) {
         this.fantasia = fantasia;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
     }
 }

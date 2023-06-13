@@ -1,13 +1,13 @@
-package model;
+package br.unipar.central.model;
 
-public class Pais extends Entidade {
+
+
+public class Banco extends Entidade {
     private String nome;
-    private String sigla;
     private String ra;
 
-    public Pais(String nome, String sigla, String ra) {
+    public Banco(String nome, String ra) {
         this.nome = nome;
-        this.sigla = sigla;
         this.ra = ra;
     }
 
@@ -17,14 +17,6 @@ public class Pais extends Entidade {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getSigla() {
-        return sigla;
-    }
-
-    public void setSigla(String sigla) {
-        this.sigla = sigla;
     }
 
     public String getRa() {

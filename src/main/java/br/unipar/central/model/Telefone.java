@@ -1,4 +1,4 @@
-package model;
+package br.unipar.central.model;
 
 public class Telefone extends Entidade {
     private String numero;
