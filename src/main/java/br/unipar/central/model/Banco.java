@@ -6,7 +6,7 @@ public class Banco extends Entidade {
     private String nome;
     private String ra;
 
-    public Banco(String nome, String ra) {
+    public Banco() {
         this.nome = nome;
         this.ra = ra;
     }

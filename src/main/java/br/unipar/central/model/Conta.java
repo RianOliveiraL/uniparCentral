@@ -12,7 +12,7 @@ public class Conta extends Entidade {
     private Pessoa titular;
     private List<Transacao> transacoes;
 
-    public Conta(String numero, String digito, String tipo, double saldo, String ra, Agencia agencia, Pessoa titular, List<Transacao> transacoes) {
+    public Conta() {
         this.numero = numero;
         this.digito = digito;
         this.tipo = tipo;

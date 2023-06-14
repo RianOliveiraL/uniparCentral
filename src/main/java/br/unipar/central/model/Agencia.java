@@ -8,7 +8,7 @@ public class Agencia extends Entidade {
     private String ra;
     private int banco_id;
 
-    public Agencia(String codigo, String digito, String razaoSocial, String cnpj, String ra, int banco_id) {
+    public Agencia() {
         this.codigo = codigo;
         this.digito = digito;
         this.razaoSocial = razaoSocial;

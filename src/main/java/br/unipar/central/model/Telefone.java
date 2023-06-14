@@ -7,7 +7,7 @@ public class Telefone extends Entidade {
     private int agencia_id;
     private int pessoa_id;
 
-    public Telefone(String numero, String operadora, String ra, int agencia_id, int pessoa_id) {
+    public Telefone() {
         this.numero = numero;
         this.operadora = operadora;
         this.ra = ra;

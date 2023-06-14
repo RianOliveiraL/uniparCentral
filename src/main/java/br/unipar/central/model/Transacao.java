@@ -10,7 +10,7 @@ public class Transacao extends Entidade {
     private Conta contaOrigem;
     private Conta contaDestino;
 
-    public Transacao(Date dataHora, double valor, String tipo, String ra, Conta contaOrigem, Conta contaDestino) {
+    public Transacao() {
         this.dataHora = dataHora;
         this.valor = valor;
         this.tipo = tipo;
