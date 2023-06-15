@@ -112,6 +112,79 @@ public class EnderecoDAO {
                 rs.close();
         }
 
+
         return endereco;
+    }
+
+    public void insert(Endereco endereco) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = new DatabaseUtils().getConnection();
+            pstmt = conn.prepareStatement(INSERT);
+            pstmt.setInt(1, endereco.getId());
+            pstmt.setString(2, endereco.getLogradouro());
+            pstmt.setString(3, endereco.getNumero());
+            pstmt.setString(4, endereco.getBairro());
+            pstmt.setString(5, endereco.getCep());
+            pstmt.setString(6, endereco.getComplemento());
+            pstmt.setString(7, endereco.getRa());
+            pstmt.setInt(8, endereco.getPessoa().getId());
+            pstmt.setInt(9, endereco.getCidade().getId());
+
+            pstmt.executeUpdate();
+        } finally {
+            if (conn != null)
+                conn.close();
+
+            if (pstmt != null)
+                pstmt.close();
+        }
+    }
+
+    public void update(Endereco endereco) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = new DatabaseUtils().getConnection();
+            pstmt = conn.prepareStatement(UPDATE);
+            pstmt.setString(1, endereco.getLogradouro());
+            pstmt.setString(2, endereco.getNumero());
+            pstmt.setString(3, endereco.getBairro());
+            pstmt.setString(4, endereco.getCep());
+            pstmt.setString(5, endereco.getComplemento());
+            pstmt.setString(6, endereco.getRa());
+            pstmt.setInt(7, endereco.getPessoa().getId());
+            pstmt.setInt(8, endereco.getCidade().getId());
+            pstmt.setInt(9, endereco.getId());
+
+            pstmt.executeUpdate();
+        } finally {
+            if (conn != null)
+                conn.close();
+
+            if (pstmt != null)
+                pstmt.close();
+        }
+    }
+
+    public void delete(int id) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = new DatabaseUtils().getConnection();
+            pstmt = conn.prepareStatement(DELETE_BY_ID);
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } finally {
+            if (conn != null)
+                conn.close();
+
+            if (pstmt != null)
+                pstmt.close();
+        }
     }
 }

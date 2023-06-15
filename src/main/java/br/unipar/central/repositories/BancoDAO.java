@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BancoDAO {
     private static final String INSERT =
@@ -18,6 +20,15 @@ public class BancoDAO {
             "SELECT ID, NOME, RA " +
                     "FROM BANCO " +
                     "WHERE ID = ?";
+
+    private static final String UPDATE =
+            "UPDATE BANCO SET NOME = ?, RA = ? WHERE ID = ?";
+
+    private static final String DELETE =
+            "DELETE FROM BANCO WHERE ID = ?";
+
+    private static final String FIND_ALL =
+            "SELECT ID, NOME, RA FROM BANCO";
 
     public void insert(Banco banco) throws SQLException {
         Connection conn = null;
@@ -68,6 +79,75 @@ public class BancoDAO {
         }
 
         return banco;
+    }
+
+    public void update(Banco banco) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = new DatabaseUtils().getConnection();
+            pstmt = conn.prepareStatement(UPDATE);
+            pstmt.setString(1, banco.getNome());
+            pstmt.setString(2, banco.getRa());
+            pstmt.setInt(3, banco.getId());
+
+            pstmt.executeUpdate();
+        } finally {
+            if (conn != null)
+                conn.close();
+
+            if (pstmt != null)
+                pstmt.close();
+        }
+    }
+
+    public void delete(int id) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = new DatabaseUtils().getConnection();
+            pstmt = conn.prepareStatement(DELETE);
+            pstmt.setInt(1, id);
+
+            pstmt.executeUpdate();
+        } finally {
+            if (conn != null)
+                conn.close();
+
+            if (pstmt != null)
+                pstmt.close();
+        }
+    }
+
+    public List<Banco> findAll() throws SQLException {
+        List<Banco> bancos = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = new DatabaseUtils().getConnection();
+            pstmt = conn.prepareStatement(FIND_ALL);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Banco banco = this.resultSetToBanco(rs);
+                bancos.add(banco);
+            }
+        } finally {
+            if (conn != null)
+                conn.close();
+
+            if (pstmt != null)
+                pstmt.close();
+
+            if (rs != null)
+                rs.close();
+        }
+
+        return bancos;
     }
 
     private Banco resultSetToBanco(ResultSet rs) throws SQLException {
