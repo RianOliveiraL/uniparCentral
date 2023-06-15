@@ -34,7 +34,7 @@ public class PessoaJuridicaDAO {
             "UPDATE PESSOAJURIDICA SET razaosocial = ?, cnpj = ?, cnaeprincipal = ?, fantasia = ? " +
                     "WHERE Pessoa_id = ?";
 
-    private List<PessoaJuridica> findAll() throws SQLException {
+    public List<PessoaJuridica> findAll() throws SQLException {
 
         ArrayList<PessoaJuridica> retorno = new ArrayList<>();
         Connection conn = null;
