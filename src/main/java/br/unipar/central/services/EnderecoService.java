@@ -1,5 +1,9 @@
 package br.unipar.central.services;
 
+import br.unipar.central.exceptions.CampoNaoInformadoException;
+import br.unipar.central.exceptions.EntidadeNaoInformadaException;
+import br.unipar.central.exceptions.RetornoVazioException;
+import br.unipar.central.exceptions.TamanhoCampoInvalidoException;
 import br.unipar.central.model.Endereco;
 import br.unipar.central.repositories.EnderecoDAO;
 
@@ -7,49 +11,86 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class EnderecoService {
-    private EnderecoDAO enderecoDAO;
+    private void validar(Endereco endereco) throws
+            EntidadeNaoInformadaException,
+            CampoNaoInformadoException {
 
-    public EnderecoService() {
-        this.enderecoDAO = new EnderecoDAO();
-    }
+        if (endereco == null) {
+            throw new EntidadeNaoInformadaException("endereco");
+        }
 
-    public Endereco getEnderecoById(int id) throws SQLException {
-        try {
-            return enderecoDAO.findById(id);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar o endereço por ID.", e);
+        if (endereco.getLogradouro() == null ||
+                endereco.getLogradouro().isEmpty() ||
+                endereco.getLogradouro().isBlank()) {
+            throw new CampoNaoInformadoException("Nome");
+        }
+
+        if (endereco.getNumero() == null ||
+                endereco.getNumero().isEmpty() ||
+                endereco.getNumero().isBlank()) {
+            throw new CampoNaoInformadoException("numero");
+        }
+
+        if (endereco.getBairro() == null ||
+                endereco.getBairro().isEmpty() ||
+                endereco.getBairro().isBlank()) {
+            throw new CampoNaoInformadoException("bairro");
+        }
+
+        if (endereco.getCep() == null ||
+                endereco.getCep().isEmpty() ||
+                endereco.getCep().isBlank()) {
+            throw new CampoNaoInformadoException("cep");
         }
     }
 
-    public void addEndereco(Endereco endereco) throws SQLException {
-        try {
-            enderecoDAO.insert(endereco);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao adicionar o endereço.", e);
-        }
+    public List<Endereco> findAll() throws SQLException {
+        EnderecoDAO enderecoDAO = new EnderecoDAO();
+        List<Endereco> resultado =enderecoDAO.findAll();
+
+        return resultado;
     }
 
-    public void updateEndereco(Endereco endereco) throws SQLException {
-        try {
-            enderecoDAO.update(endereco);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar o endereço.", e);
+    public Endereco findById(int id) throws SQLException,
+            TamanhoCampoInvalidoException,
+            RetornoVazioException {
+
+        if (id <= 0) {
+            throw new TamanhoCampoInvalidoException("id", 0);
         }
+
+        EnderecoDAO enderecoDAO = new EnderecoDAO();
+
+        Endereco retorno = enderecoDAO.findById(id);
+
+        if (retorno == null) {
+            throw new RetornoVazioException("id");
+        }
+
+        return retorno;
     }
 
-    public void deleteEndereco(int id) throws SQLException {
-        try {
-            enderecoDAO.delete(id);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao excluir o endereço.", e);
-        }
+    public void insert(Endereco endereco) throws SQLException,
+            EntidadeNaoInformadaException,
+            CampoNaoInformadoException {
+        validar(endereco);
+
+        EnderecoDAO enderecoDAO = new EnderecoDAO();
+        enderecoDAO.insert(endereco);
     }
 
-    public List<Endereco> getAllEnderecos() throws SQLException {
-        try {
-            return enderecoDAO.findAll();
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar todos os endereços.", e);
-        }
+    public void update(Endereco endereco) throws SQLException,
+            EntidadeNaoInformadaException,
+            CampoNaoInformadoException,
+            TamanhoCampoInvalidoException {
+        validar(endereco);
+
+        EnderecoDAO enderecoDAO = new EnderecoDAO();
+        enderecoDAO.update(endereco);
+    }
+
+    public void delete(int id) throws SQLException {
+        EnderecoDAO enderecoDAO = new EnderecoDAO();
+        enderecoDAO.delete(id);
     }
 }

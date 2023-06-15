@@ -1,5 +1,9 @@
 package br.unipar.central.services;
 
+import br.unipar.central.exceptions.CampoNaoInformadoException;
+import br.unipar.central.exceptions.EntidadeNaoInformadaException;
+import br.unipar.central.exceptions.RetornoVazioException;
+import br.unipar.central.exceptions.TamanhoCampoInvalidoException;
 import br.unipar.central.model.Estado;
 import br.unipar.central.repositories.EstadoDAO;
 
@@ -7,49 +11,87 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class EstadoService {
-    private EstadoDAO estadoDAO;
 
-    public EstadoService() {
-        this.estadoDAO = new EstadoDAO();
-    }
+    private void validar(Estado estado) throws
+            TamanhoCampoInvalidoException,
+            CampoNaoInformadoException,
+            EntidadeNaoInformadaException {
 
-    public List<Estado> getAllEstados() {
-        try {
-            return estadoDAO.findAll();
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar todos os estados.", e);
+        if (estado == null) {
+            throw new EntidadeNaoInformadaException("Estado");
+        }
+
+        if (estado.getNome() == null ||
+                estado.getNome().isEmpty() ||
+                estado.getNome().isBlank()) {
+            throw new CampoNaoInformadoException("Nome");
+        }
+
+        if (estado.getSigla()== null ||
+                estado.getSigla().isEmpty() ||
+                estado.getSigla().isBlank()) {
+            throw new CampoNaoInformadoException("Sigla");
+        }
+
+        if (!(estado.getSigla().length() == 2)) {
+            throw new TamanhoCampoInvalidoException("Sigla", 2);
+        }
+
+        if (estado.getNome().length() > 60) {
+            throw new TamanhoCampoInvalidoException("Nome", 60);
         }
     }
 
-    public Estado getEstadoById(int id) {
-        try {
-            return estadoDAO.findById(id);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar o estado por ID.", e);
-        }
+    public List<Estado> findAll() throws SQLException {
+
+        EstadoDAO estadoDAO = new EstadoDAO();
+        List<Estado> resultado = estadoDAO.findAll();
+
+        return resultado;
+
     }
 
-    public void addEstado(Estado estado) {
-        try {
-            estadoDAO.insert(estado);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao adicionar o estado.", e);
-        }
+    public Estado findById(int id) throws
+            SQLException,
+            TamanhoCampoInvalidoException,
+            RetornoVazioException {
+
+        if (id <= 0)
+            throw new TamanhoCampoInvalidoException("id", 1);
+
+        EstadoDAO estadoDAO = new EstadoDAO();
+
+        Estado retorno = estadoDAO.findById(id);
+
+        if (retorno == null)
+            throw new RetornoVazioException("id");
+
+        return retorno;
     }
 
-    public void updateEstado(Estado estado) {
-        try {
-            estadoDAO.update(estado);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar o estado.", e);
-        }
+    public void insert(Estado estado) throws SQLException,
+            EntidadeNaoInformadaException,
+            CampoNaoInformadoException,
+            TamanhoCampoInvalidoException {
+
+        validar(estado);
+
+        EstadoDAO estadoDAO = new EstadoDAO();
+        estadoDAO.insert(estado);
+
     }
 
-    public void deleteEstado(int id) {
-        try {
-            estadoDAO.delete(id);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao excluir o estado.", e);
-        }
+    public void update(Estado estado) throws SQLException,
+            EntidadeNaoInformadaException,
+            CampoNaoInformadoException,
+            TamanhoCampoInvalidoException {
+        validar(estado);
+        EstadoDAO estadoDAO = new EstadoDAO();
+        estadoDAO.update(estado);
+    }
+
+    public void delete(int id) throws SQLException {
+        EstadoDAO estadoDAO = new EstadoDAO();
+        estadoDAO.delete(id);
     }
 }

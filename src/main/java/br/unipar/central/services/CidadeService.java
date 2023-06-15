@@ -1,5 +1,9 @@
 package br.unipar.central.services;
 
+import br.unipar.central.exceptions.CampoNaoInformadoException;
+import br.unipar.central.exceptions.EntidadeNaoInformadaException;
+import br.unipar.central.exceptions.RetornoVazioException;
+import br.unipar.central.exceptions.TamanhoCampoInvalidoException;
 import br.unipar.central.model.Cidade;
 import br.unipar.central.repositories.CidadeDAO;
 
@@ -7,49 +11,74 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class CidadeService {
-    private CidadeDAO cidadeDAO;
+    private void validar(Cidade cidade) throws
+            EntidadeNaoInformadaException,
+            CampoNaoInformadoException,
+            TamanhoCampoInvalidoException {
 
-    public CidadeService() {
-        this.cidadeDAO = new CidadeDAO();
-    }
+        if (cidade == null) {
+            throw new EntidadeNaoInformadaException("Cidade");
+        }
 
-    public Cidade getCidadeById(int id) throws SQLException {
-        try {
-            return cidadeDAO.findById(id);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar a cidade por ID.", e);
+        if (cidade.getNome() == null ||
+                cidade.getNome().isEmpty() ||
+                cidade.getNome().isBlank()) {
+            throw new CampoNaoInformadoException("Nome");
+        }
+
+        if (cidade.getNome().length() > 60) {
+            throw new TamanhoCampoInvalidoException("Nome", 60);
         }
     }
 
-    public void addCidade(Cidade cidade) throws SQLException {
-        try {
-            cidadeDAO.insert(cidade);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao adicionar a cidade.", e);
-        }
+    public List<Cidade> findAll() throws SQLException {
+        CidadeDAO cidadeDAO = new CidadeDAO();
+        List<Cidade> resultado = cidadeDAO.findAll();
+
+        return  resultado;
+
     }
 
-    public void updateCidade(Cidade cidade) throws SQLException {
-        try {
-            cidadeDAO.update(cidade);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar a cidade.", e);
+    public Cidade findById(int id) throws SQLException,
+            TamanhoCampoInvalidoException,
+            RetornoVazioException {
+
+        if (id <= 0)
+            throw new TamanhoCampoInvalidoException("id", 1);
+
+        CidadeDAO cidadeDAO = new CidadeDAO();
+
+        Cidade retorno = cidadeDAO.findById(id);
+
+        if (retorno == null) {
+            throw new RetornoVazioException("id");
         }
+
+        return retorno;
     }
 
-    public void deleteCidade(int id) throws SQLException {
-        try {
-            cidadeDAO.delete(id);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao excluir a cidade.", e);
-        }
+    public void insert(Cidade cidade) throws SQLException,
+            EntidadeNaoInformadaException,
+            CampoNaoInformadoException,
+            TamanhoCampoInvalidoException {
+        validar(cidade);
+
+        CidadeDAO cidadeDAO = new CidadeDAO();
+        cidadeDAO.insert(cidade);
     }
 
-    public List<Cidade> getAllCidades() throws SQLException {
-        try {
-            return cidadeDAO.findAll();
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar todas as cidades.", e);
-        }
+    public void update(Cidade cidade) throws SQLException,
+            EntidadeNaoInformadaException,
+            CampoNaoInformadoException,
+            TamanhoCampoInvalidoException {
+
+        validar(cidade);
+        CidadeDAO cidadeDAO = new CidadeDAO();
+        cidadeDAO.update(cidade);
+    }
+
+    public void delete (int id) throws SQLException {
+        CidadeDAO cidadeDAO = new CidadeDAO();
+        cidadeDAO.delete(id);
     }
 }
