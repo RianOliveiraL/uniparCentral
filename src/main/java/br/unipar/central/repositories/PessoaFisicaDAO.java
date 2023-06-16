@@ -84,11 +84,10 @@ public class PessoaFisicaDAO {
 
             while(rs.next()) {
                 pessoaFisica = new PessoaFisica();
-                pessoaFisica.setId(rs.getInt("ID"));
                 pessoaFisica.setNome(rs.getString("NOME"));
                 pessoaFisica.setRg(rs.getString("RG"));
                 pessoaFisica.setCpf(rs.getString("CPF"));
-                pessoaFisica.setDataNascimento(rs.getDate("DATA_NASCIMENTO"));
+                pessoaFisica.setDataNascimento(rs.getDate("DATANASCIMENTO"));
                 pessoaFisica.setPessoa(new PessoaDAO().findById(rs.getInt("PESSOA_ID")));
             }
         } finally {
@@ -113,12 +112,11 @@ public class PessoaFisicaDAO {
             conn = new DatabaseUtils().getConnection();
             pstmt = conn.prepareStatement(INSERT);
 
-            pstmt.setInt(1, pessoaFisica.getId());
-            pstmt.setString(2, pessoaFisica.getNome());
-            pstmt.setString(3, pessoaFisica.getCpf());
-            pstmt.setString(4, pessoaFisica.getRg());
-            pstmt.setDate(5, (Date) pessoaFisica.getDataNascimento());
-            pstmt.setInt(6, pessoaFisica.getPessoa().getId());
+            pstmt.setString(1, pessoaFisica.getNome());
+            pstmt.setString(2, pessoaFisica.getCpf());
+            pstmt.setString(3, pessoaFisica.getRg());
+            pstmt.setDate(4, (Date) pessoaFisica.getDataNascimento());
+            pstmt.setInt(5, pessoaFisica.getPessoa().getId());
 
         } finally {
             if (conn != null)
