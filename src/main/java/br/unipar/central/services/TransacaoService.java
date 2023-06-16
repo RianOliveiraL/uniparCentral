@@ -105,6 +105,7 @@ public class TransacaoService {
         return transacaoDAO.findTransactionsByAccountId(accountId);
     }
 
+
     public double calculateAccountBalance(Conta conta) throws SQLException {
         List<Transacao> transacoes = findTransactionsByAccountId(conta.getId());
         double saldo = 0;

@@ -165,6 +165,110 @@ public class ContaDAO {
         }
     }
 
+    private static final String FIND_BY_NOME =
+            "SELECT ID, NUMERO, DIGITO, TIPO, SALDO, RA, AGENCIA_ID, TITULAR_ID " +
+                    "FROM CONTA " +
+                    "JOIN PESSOA ON CONTA.TITULAR_ID = PESSOA.ID " +
+                    "WHERE PESSOA.NOME = ?";
+
+    private static final String FIND_BY_TELEFONE =
+            "SELECT ID, NUMERO, DIGITO, TIPO, SALDO, RA, AGENCIA_ID, TITULAR_ID " +
+                    "FROM CONTA " +
+                    "JOIN TELEFONE ON CONTA.TITULAR_ID = TELEFONE.PESSOA_ID " +
+                    "WHERE TELEFONE.NUMERO = ?";
+
+    private static final String FIND_BY_NUMERO =
+            "SELECT ID, NUMERO, DIGITO, TIPO, SALDO, RA, AGENCIA_ID, TITULAR_ID " +
+                    "FROM CONTA " +
+                    "WHERE NUMERO = ?";
+
+    public Conta findByNome(String nome) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Conta conta = null;
+
+        try {
+            conn = new DatabaseUtils().getConnection();
+            pstmt = conn.prepareStatement(FIND_BY_NOME);
+            pstmt.setString(1, nome);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                conta = this.resultSetToConta(rs);
+            }
+        } finally {
+            if (conn != null)
+                conn.close();
+
+            if (pstmt != null)
+                pstmt.close();
+
+            if (rs != null)
+                rs.close();
+        }
+
+        return conta;
+    }
+
+    public Conta findByTelefone(String telefone) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Conta conta = null;
+
+        try {
+            conn = new DatabaseUtils().getConnection();
+            pstmt = conn.prepareStatement(FIND_BY_TELEFONE);
+            pstmt.setString(1, telefone);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                conta = this.resultSetToConta(rs);
+            }
+        } finally {
+            if (conn != null)
+                conn.close();
+
+            if (pstmt != null)
+                pstmt.close();
+
+            if (rs != null)
+                rs.close();
+        }
+
+        return conta;
+    }
+
+    public Conta findByNumero(String numeroConta) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Conta conta = null;
+
+        try {
+            conn = new DatabaseUtils().getConnection();
+            pstmt = conn.prepareStatement(FIND_BY_NUMERO);
+            pstmt.setString(1, numeroConta);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                conta = this.resultSetToConta(rs);
+            }
+        } finally {
+            if (conn != null)
+                conn.close();
+
+            if (pstmt != null)
+                pstmt.close();
+
+            if (rs != null)
+                rs.close();
+        }
+
+        return conta;
+    }
+
     private Conta resultSetToConta(ResultSet rs) throws SQLException {
         Conta conta = new Conta();
         conta.setId(rs.getInt("ID"));

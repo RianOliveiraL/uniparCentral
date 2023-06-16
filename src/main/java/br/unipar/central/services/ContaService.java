@@ -45,6 +45,31 @@ public class ContaService {
         }
     }
 
+    public Conta getContaByNome(String nome) {
+        try {
+            return contaDAO.findByNome(nome);
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar a conta pelo nome.", e);
+        }
+    }
+
+    public Conta getContaByTelefone(String telefone) {
+        try {
+            return contaDAO.findByTelefone(telefone);
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar a conta pelo telefone.", e);
+        }
+    }
+
+    public Conta getContaByNumero(String numeroConta) {
+        try {
+            return contaDAO.findByNumero(numeroConta);
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar a conta pelo número.", e);
+        }
+    }
+
+
     public List<Conta> getAllContas() throws SQLException {
         try {
             return contaDAO.findAll();
